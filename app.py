@@ -78,4 +78,8 @@ async def on_command_error(ctx, error):
         pass
 with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
     t = f.readline()
+
+
 client.run(t)
+
+
