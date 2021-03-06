@@ -3,7 +3,6 @@ from discord.ext import commands
 import os
 
 client = commands.Bot(command_prefix='.')
-m = Music(client)
 
 @client.event
 async def on_ready():
@@ -74,7 +73,6 @@ for files in os.listdir("./cogs"):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("Sorry, only admins have access to that command")
-    if isinstance(error, commands.ExtensionError):
-        pass
+
 
 client.run('ODE1OTgxNTc0OTY4ODM2MTA3.YD0UDw.FzgCJqTL-NMQMAKB0MU1kMQTFnY')
