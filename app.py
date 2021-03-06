@@ -1,39 +1,35 @@
 import discord
 from discord.ext import commands
-import random
 import os
+from music1 import Music
 
 client = commands.Bot(command_prefix='.')
+m = Music(client)
+
+@client.event
+async def on_ready():
+    print("Bot is ready")
 
 
 @client.command()
-async def ping(ctx):
-    await ctx.send(f"Latency : {round(client.latency*1000)}ms")
-
-@client.command(aliases=['ques'])
-async def Ques(ctx, *, question):
-    responses = ['hello',
-                 'yes you are right',
-                 'definitely no!',
-                 'retard get your ass outta here',
-                 'go to hell']
-
-    await ctx.send(f"Question : {question}\n Answer : {random.choice(responses)}")
-
-@client.command()
-async def kick(ctx, *, member : discord.Member, reason="promoting pornography"):
+@commands.has_permissions(kick_members=True)
+async def kick(ctx, *, member : discord.Member):
     """
     i passed in memeber as a discord member so that we get a mentioned user instead of a string
     i could also have passed it simply as member but that thing would give me a string of userid instead of actual user
     """
-    await member.kick(reason=reason)
-    await ctx.send(f"{member} got kicked because of {reason}")
+    await member.kick()
+    await ctx.send(f"{member} has been kicked from the server")
+
 
 @client.command()
-async def ban(ctx, *, member : discord.Member, reason="promoting pornography"):
-    await member.ban(reason=reason)
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, *, member : discord.Member):
+    await member.ban()
+
 
 @client.command()
+@commands.has_permissions(administrator=True)
 async def unban(ctx, *, member):
     banned_users = await ctx.guild.bans() # generates a list of all banned members
     mem_name, mem_discriminator = member.split('#')
@@ -46,16 +42,40 @@ async def unban(ctx, *, member):
             await ctx.send(f"{user.mention} has been unbanned because he bribed the owner ::)")
             return
 
-@client.command()
-async def load(ctx, extension):
-    client.load_extension(f"cogs.{extension}")
 
 @client.command()
-async def unload(ctx, extension):
+@commands.has_permissions(manage_roles=True)
+async def giverole(ctx, user: discord.Member, role: discord.Role):
+    await user.add_roles(role)
+    await ctx.send(f"{user.mention} has been given the role of: {role.name}")
+
+
+@client.command()
+@commands.has_permissions(manage_roles=True)
+async def removerole(ctx, user:discord.Member, role:discord.Role):
+    await user.remove_roles(role)
+    await ctx.send(f"{user.mention} has been removed from {role} role")
+
+
+@client.command()
+async def load(extension):
+    client.load_extension(f"cogs.{extension}")
+
+
+@client.command()
+async def unload(extension):
     client.unload_extension(f"cogs.{extension}")
 
 for files in os.listdir("./cogs"):
     if files.endswith(".py"):
         client.load_extension(f"cogs.{files[:-3]}")
 
-client.run('ODE1OTgxNTc0OTY4ODM2MTA3.YD0UDw.9X5vCsfw48-TqCPeHJGHx78GEx8')
+# ERROR HANDLING
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("Sorry, only admins have access to that command")
+    if isinstance(error, commands.ExtensionError):
+        pass
+
+client.run('ODE1OTgxNTc0OTY4ODM2MTA3.YD0UDw.FzgCJqTL-NMQMAKB0MU1kMQTFnY')
