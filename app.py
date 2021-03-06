@@ -1,10 +1,9 @@
 import discord
 from discord.ext import commands
 import os
-from music1 import Music
 
 client = commands.Bot(command_prefix='.')
-m = Music(client)
+
 
 @client.event
 async def on_ready():
@@ -77,5 +76,6 @@ async def on_command_error(ctx, error):
         await ctx.send("Sorry, only admins have access to that command")
     if isinstance(error, commands.ExtensionError):
         pass
-
-client.run('ODE1OTgxNTc0OTY4ODM2MTA3.YD0UDw.FzgCJqTL-NMQMAKB0MU1kMQTFnY')
+with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
+    t = f.readline()
+client.run(t)
