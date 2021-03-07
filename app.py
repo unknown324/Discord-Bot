@@ -28,6 +28,10 @@ async def ban(ctx, *, member : discord.Member):
 
 
 @client.command()
+async def clear(ctx, amount=10):
+    await ctx.channel.purge(limit=amount)
+
+@client.command()
 @commands.has_permissions(administrator=True)
 async def unban(ctx, *, member):
     banned_users = await ctx.guild.bans() # generates a list of all banned members
@@ -65,21 +69,19 @@ async def load(extension):
 async def unload(extension):
     client.unload_extension(f"cogs.{extension}")
 
-for files in os.listdir("./cogs"):
-    if files.endswith(".py"):
-        client.load_extension(f"cogs.{files[:-3]}")
+# for files in os.listdir("./cogs"):
+#     if files.endswith(".py"):
+#         client.load_extension(f"cogs.{files[:-3]}")
 
 # ERROR HANDLING
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("Sorry, only admins have access to that command")
-    if isinstance(error, commands.ExtensionError):
-        pass
+
+
 with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
     t = f.readline()
 
 
 client.run(t)
-
-
