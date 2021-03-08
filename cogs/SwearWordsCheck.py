@@ -1,6 +1,10 @@
 import discord
 from discord.ext import commands
+from pathlib import Path
 
+
+def root() -> Path:
+	return Path(__file__).parent.parent
 class Security(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -8,7 +12,7 @@ class Security(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message(self, msg):
-		with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\\DISCORD\\Discord-Bot\\words.txt", "r+") as f:
+		with open(str(root())+'\\words.txt', "r+") as f:
 			wrd = f.readlines()
 			for ow in wrd:
 				words = ow.strip("\n")

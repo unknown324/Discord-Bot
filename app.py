@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import os
-
+from Music import Music
 client = commands.Bot(command_prefix='.')
 
 
@@ -70,6 +70,9 @@ async def load(extension):
 async def unload(extension):
     client.unload_extension(f"cogs.{extension}")
 
+
+client.add_cog(Music(client))
+
 for files in os.listdir("./cogs"):
     if files.endswith(".py"):
         client.load_extension(f"cogs.{files[:-3]}")
@@ -82,8 +85,9 @@ async def on_command_error(ctx, error):
         pass
 
 
-with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
-    t = f.readline()
+# with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
+#     #t = f.readline()
+#     pass
 
 
-client.run(t)
+client.run("ODE1Njc4NjQzNjU2MTk2MTI4.YDv57w.HlCYBXuRx9R1obcJX8GI36lwd6U")
