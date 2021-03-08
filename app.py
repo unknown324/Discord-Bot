@@ -25,6 +25,7 @@ async def kick(ctx, *, member : discord.Member):
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, *, member : discord.Member):
     await member.ban()
+    await ctx.send(f"{member} has been banned.")
 
 
 @client.command()
@@ -42,7 +43,7 @@ async def unban(ctx, *, member):
 
         if (user.name, user.discriminator) == (mem_name, mem_discriminator):
             await ctx.guild.unban(user)
-            await ctx.send(f"{user.mention} has been unbanned because he bribed the owner ::)")
+            await ctx.send(f"{user.mention} has been unbanned.")
             return
 
 
@@ -69,15 +70,16 @@ async def load(extension):
 async def unload(extension):
     client.unload_extension(f"cogs.{extension}")
 
-# for files in os.listdir("./cogs"):
-#     if files.endswith(".py"):
-#         client.load_extension(f"cogs.{files[:-3]}")
+for files in os.listdir("./cogs"):
+    if files.endswith(".py"):
+        client.load_extension(f"cogs.{files[:-3]}")
 
 # ERROR HANDLING
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("Sorry, only admins have access to that command")
+        pass
 
 
 with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
