@@ -2,6 +2,11 @@ import discord
 from discord.ext import commands
 import os
 from Music import Music
+from pathlib import Path
+
+
+def root() -> Path:
+    return Path(__file__).parent.parent
 client = commands.Bot(command_prefix='.')
 
 
@@ -85,9 +90,8 @@ async def on_command_error(ctx, error):
         pass
 
 
-# with open("D:\\Programming stuff\\Pycharm projects\\Other stuff\DISCORD\\tokens.txt") as f:
-#     #t = f.readline()
-#     pass
+with open(str(root())+"\\tokens.txt") as f:
+    t = f.readline()
 
 
-client.run("ODE1Njc4NjQzNjU2MTk2MTI4.YDv57w.HlCYBXuRx9R1obcJX8GI36lwd6U")
+client.run("")
