@@ -90,8 +90,8 @@ async def on_command_error(ctx, error):
         pass
 
 
-with open(str(root())+"\\tokens.txt") as f:
+with open("tokens.txt") as f:
     t = f.readline()
 
 
-client.run("")
+client.run(t)
